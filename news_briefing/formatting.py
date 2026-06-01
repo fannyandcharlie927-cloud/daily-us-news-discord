@@ -10,11 +10,11 @@ DISCORD_LIMIT = 1900
 
 def render_report(items: list[BriefingItem], local_now: datetime, requested_count: int) -> str:
     header = [
-        "# AI新聞",
+        "# 每日AI新聞",
         f"日期：{local_now.strftime('%Y-%m-%d %H:%M')}（Australia/Hobart）",
     ]
     if not items:
-        header.append("今天沒有找到符合條件的可靠 AI 新聞。")
+        header.append("今天沒有找到符合條件的 AI 新聞。")
         return "\n".join(header)
 
     sections = ["\n".join(header)]

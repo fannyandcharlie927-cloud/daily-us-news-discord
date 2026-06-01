@@ -38,7 +38,6 @@ PRODUCT_KEYWORDS = (
     "model",
     "agent",
     "agents",
-    "app",
     "feature",
     "features",
     "release",
@@ -115,6 +114,12 @@ EXCLUDE_KEYWORDS = (
     "expulsion",
     "reporter",
     "journalist",
+    "religion",
+    "religious",
+    "faith",
+    "church",
+    "vatican",
+    "pope",
 )
 
 AI_SEARCH_QUERIES = (
