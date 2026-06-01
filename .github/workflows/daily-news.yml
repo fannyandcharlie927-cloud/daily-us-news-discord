@@ -30,5 +30,13 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      - name: Check required secrets
+        run: |
+          if [ -z "$DISCORD_WEBHOOK_URL" ]; then
+            echo "::error::Missing GitHub Actions secret: DISCORD_WEBHOOK_URL"
+            echo "Create it at repository Settings > Secrets and variables > Actions > Repository secrets."
+            exit 2
+          fi
+
       - name: Run daily briefing
         run: python -m news_briefing.main
