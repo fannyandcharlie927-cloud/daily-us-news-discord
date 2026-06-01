@@ -13,7 +13,7 @@ jobs:
     timeout-minutes: 20
     env:
       DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
-      MAX_ARTICLES: "5"
+      MAX_ARTICLES: "8"
       LOCAL_TIMEZONE: "Australia/Hobart"
 
     steps:

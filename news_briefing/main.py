@@ -15,6 +15,10 @@ from .briefing import build_briefing_items
 
 
 def main() -> int:
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8")
+        sys.stderr.reconfigure(encoding="utf-8")
+
     parser = argparse.ArgumentParser(description="Send a verified daily US news briefing to Discord.")
     parser.add_argument("--dry-run", action="store_true", help="Print the report instead of sending to Discord.")
     args = parser.parse_args()

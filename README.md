@@ -1,21 +1,21 @@
 # daily-us-news-discord
 
-每天自動收集可靠美國新聞來源的重要新聞，先做來源檢查與基本查證，再用繁體中文欄位整理成「已查證每日美國新聞簡報」並送到 Discord。
+每天自動收集可靠新聞來源的 AI 新聞，整理成「AI新聞」並送到 Discord。預設包含 5 篇 AI 軟體/硬體更新，以及 3 篇使用 AI 或 Codex 做出作品、App、工具或專案的案例。
 
-這是免費版本，不使用 OpenAI API，也不需要付費 AI 額度。新聞原始標題與來源摘要會保留英文；繁體中文會用在報告標題、欄位名稱、查證說明、重要性與實際意義等固定說明。
+這是免費版本，不使用 OpenAI API，也不需要付費 AI 額度。摘要與重點會嘗試使用免費翻譯端點轉成繁體中文；如果免費翻譯端點失敗，系統會保留英文原文，不會改用付費服務。
 
 ## 重要限制
 
-- 不使用付費 AI 或翻譯 API，因此不會可靠地把整篇新聞自動翻譯成自然繁體中文。
-- 系統會送出英文原標題、來源、時間、URL、英文來源摘要、查證資訊與繁體中文說明。
+- 不使用付費 AI 或翻譯 API，因此翻譯品質與可用性取決於免費翻譯端點。
+- 系統會送出中文標題、英文原標題、來源、時間、URL、中文摘要、中文重點與兩段內文。
 - 如果未來要完整繁體中文摘要與分析，需要接入 OpenAI API 或其他翻譯/摘要服務；這通常需要額度或付費。
 
 ## 功能
 
-- 從 AP、Reuters US、NPR、The New York Times、The Washington Post、The Wall Street Journal、Axios、Politico、CNN、NBC News 等可靠美國新聞來源讀取新聞。
+- 從 AP、Reuters US、NPR、The New York Times、The Washington Post、The Wall Street Journal、Axios、Politico、CNN、NBC News 等可靠新聞來源讀取 AI 相關新聞。
 - 避免同一事件的重複新聞。
 - 嘗試抓取原文內容，並用其他可靠來源比對同題報導。
-- 每則新聞包含中文欄位、英文原標題、來源、發布時間、URL、來源摘要、重點、重要性、實際意義與查證資訊。
+- 每則新聞包含中文標題、英文原標題、來源、發布時間、URL、摘要、重點與兩段內文。
 - 使用 `DISCORD_WEBHOOK_URL` 傳送到 Discord。
 - Discord 訊息過長時會自動分段。
 - GitHub Actions 每日自動執行，簡報日期與時間使用 `Australia/Hobart` 邏輯。
@@ -58,7 +58,7 @@ copy .env.example .env
 
 ```text
 DISCORD_WEBHOOK_URL=你的 Discord webhook
-MAX_ARTICLES=5
+MAX_ARTICLES=8
 LOCAL_TIMEZONE=Australia/Hobart
 ```
 

@@ -21,6 +21,9 @@ PRIMARY_SOURCES: tuple[NewsSource, ...] = (
     NewsSource("Politico", "https://rss.politico.com/politics-news.xml", ("politico.com",)),
     NewsSource("CNN", "http://rss.cnn.com/rss/cnn_topstories.rss", ("cnn.com",)),
     NewsSource("NBC News", "https://feeds.nbcnews.com/nbcnews/public/news", ("nbcnews.com",)),
+    NewsSource("The Verge", "https://www.theverge.com/rss/ai-artificial-intelligence/index.xml", ("theverge.com",)),
+    NewsSource("TechCrunch", "https://techcrunch.com/category/artificial-intelligence/feed/", ("techcrunch.com",)),
+    NewsSource("WIRED", "https://www.wired.com/feed/tag/ai/latest/rss", ("wired.com",)),
 )
 
 

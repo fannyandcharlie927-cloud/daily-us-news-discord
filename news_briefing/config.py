@@ -17,7 +17,7 @@ def load_settings(dry_run: bool = False) -> Settings:
     timezone_name = os.getenv("LOCAL_TIMEZONE", "Australia/Hobart")
     return Settings(
         discord_webhook_url=os.getenv("DISCORD_WEBHOOK_URL"),
-        max_articles=int(os.getenv("MAX_ARTICLES", "5")),
+        max_articles=int(os.getenv("MAX_ARTICLES", "8")),
         local_timezone=ZoneInfo(timezone_name),
         dry_run=dry_run,
     )

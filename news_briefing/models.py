@@ -11,6 +11,7 @@ class Article:
     url: str
     published_at: datetime | None
     summary_hint: str
+    topic: str = "product"
     article_text: str = ""
     verification_sources: list["SupportSource"] = field(default_factory=list)
     confidence: str = "Low"
@@ -34,6 +35,7 @@ class BriefingItem:
     url: str
     summary: list[str]
     key_points: list[str]
+    body_paragraphs: list[str]
     why_it_matters: str
     practical_meaning: list[str]
     verified_information: list[str]
