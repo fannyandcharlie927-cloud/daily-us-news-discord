@@ -1,0 +1,36 @@
+name: Daily US News Discord Briefing
+
+on:
+  schedule:
+    # Runs once per day. The Python app uses Australia/Hobart timezone logic
+    # when labeling and filtering the briefing.
+    - cron: "30 20 * * *"
+  workflow_dispatch:
+
+jobs:
+  send-briefing:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      OPENAI_MODEL: ${{ vars.OPENAI_MODEL || 'gpt-4o-mini' }}
+      MAX_ARTICLES: "5"
+      LOCAL_TIMEZONE: "Australia/Hobart"
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run daily briefing
+        run: python -m news_briefing.main

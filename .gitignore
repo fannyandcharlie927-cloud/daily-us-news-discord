@@ -1,0 +1,13 @@
+__pycache__/
+*.py[cod]
+.env
+.venv/
+.python311/
+.pip-cache/
+*.nupkg
+python.*.zip
+news_briefing/__pycache__/
+dist/
+build/
+.pytest_cache/
+*.log

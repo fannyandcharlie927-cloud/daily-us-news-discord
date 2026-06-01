@@ -1,0 +1,20 @@
+[project]
+name = "daily-us-news-discord"
+version = "0.1.0"
+description = "Verified daily US news briefing in Traditional Chinese delivered to Discord."
+requires-python = ">=3.11"
+dependencies = [
+  "beautifulsoup4==4.12.3",
+  "feedparser==6.0.11",
+  "openai==1.58.1",
+  "python-dateutil==2.9.0.post0",
+  "python-dotenv==1.0.1",
+  "requests==2.32.3",
+  "tzdata==2026.1",
+]
+
+[project.scripts]
+daily-us-news-discord = "news_briefing.main:main"
+
+[tool.setuptools.packages.find]
+include = ["news_briefing*"]
