@@ -11,7 +11,7 @@ from .collect import collect_articles
 from .config import load_settings
 from .discord import send_messages
 from .formatting import render_report, split_for_discord
-from .llm import build_briefing_items, fallback_briefing_items
+from .briefing import build_briefing_items
 
 
 def main() -> int:
@@ -30,14 +30,7 @@ def main() -> int:
 
     try:
         articles = collect_articles(local_now, settings.max_articles)
-        if settings.openai_api_key:
-            items = build_briefing_items(articles, settings.openai_api_key, settings.openai_model)
-        elif settings.dry_run:
-            logging.warning("OPENAI_API_KEY is not set; using fallback summaries.")
-            items = fallback_briefing_items(articles)
-        else:
-            logging.error("OPENAI_API_KEY is required for finalized Discord briefings.")
-            return 2
+        items = build_briefing_items(articles)
 
         report = render_report(items, local_now, settings.max_articles)
         chunks = split_for_discord(report)

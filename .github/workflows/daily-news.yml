@@ -13,8 +13,6 @@ jobs:
     timeout-minutes: 20
     env:
       DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
-      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-      OPENAI_MODEL: ${{ vars.OPENAI_MODEL || 'gpt-4o-mini' }}
       MAX_ARTICLES: "5"
       LOCAL_TIMEZONE: "Australia/Hobart"
 

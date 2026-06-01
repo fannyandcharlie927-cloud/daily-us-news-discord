@@ -1,15 +1,21 @@
 # daily-us-news-discord
 
-每天自動收集可靠美國新聞來源的重要新聞，先做查證，再用繁體中文整理成「已查證每日美國新聞簡報」並送到 Discord。
+每天自動收集可靠美國新聞來源的重要新聞，先做來源檢查與基本查證，再用繁體中文欄位整理成「已查證每日美國新聞簡報」並送到 Discord。
 
-這個專案不是內容創作工具。它不會產生社群貼文、hashtag、Threads 點子、Instagram 輪播點子或影片點子，也不會把簡報標成審稿草稿。若可靠且可查證的新聞少於 5 則，系統只會送出已查證的新聞，並清楚標示找到幾則。
+這是免費版本，不使用 OpenAI API，也不需要付費 AI 額度。新聞原始標題與來源摘要會保留英文；繁體中文會用在報告標題、欄位名稱、查證說明、重要性與實際意義等固定說明。
+
+## 重要限制
+
+- 不使用付費 AI 或翻譯 API，因此不會可靠地把整篇新聞自動翻譯成自然繁體中文。
+- 系統會送出英文原標題、來源、時間、URL、英文來源摘要、查證資訊與繁體中文說明。
+- 如果未來要完整繁體中文摘要與分析，需要接入 OpenAI API 或其他翻譯/摘要服務；這通常需要額度或付費。
 
 ## 功能
 
 - 從 AP、Reuters US、NPR、The New York Times、The Washington Post、The Wall Street Journal、Axios、Politico、CNN、NBC News 等可靠美國新聞來源讀取新聞。
 - 避免同一事件的重複新聞。
 - 嘗試抓取原文內容，並用其他可靠來源比對同題報導。
-- 每則新聞包含中文標題、英文原標題、來源、發布時間、URL、摘要、重點、重要性、實際意義與查證資訊。
+- 每則新聞包含中文欄位、英文原標題、來源、發布時間、URL、來源摘要、重點、重要性、實際意義與查證資訊。
 - 使用 `DISCORD_WEBHOOK_URL` 傳送到 Discord。
 - Discord 訊息過長時會自動分段。
 - GitHub Actions 每日自動執行，簡報日期與時間使用 `Australia/Hobart` 邏輯。
@@ -52,8 +58,6 @@ copy .env.example .env
 
 ```text
 DISCORD_WEBHOOK_URL=你的 Discord webhook
-OPENAI_API_KEY=你的 OpenAI API key
-OPENAI_MODEL=gpt-4o-mini
 MAX_ARTICLES=5
 LOCAL_TIMEZONE=Australia/Hobart
 ```
@@ -74,8 +78,6 @@ python -m news_briefing.main --dry-run
 python -m news_briefing.main
 ```
 
-如果沒有設定 `OPENAI_API_KEY`，`--dry-run` 會使用備援摘要格式方便檢查流程；正式送出 Discord 時必須設定 `OPENAI_API_KEY`。
-
 ## GitHub Actions 設定
 
 workflow 檔案位於：
@@ -86,31 +88,13 @@ workflow 檔案位於：
 
 它會在 GitHub runner 上自動安裝 Python 3.11，因此不需要在 GitHub 主機另外安裝 Python。
 
-在 GitHub repository 加入 Secrets：
+在 GitHub repository 加入 Secret：
 
 - `DISCORD_WEBHOOK_URL`
-- `OPENAI_API_KEY`
 
-可選擇加入 repository variable：
-
-- `OPENAI_MODEL`，預設為 `gpt-4o-mini`
+不需要設定 `OPENAI_API_KEY`。
 
 設定完成後，可以在 GitHub Actions 頁面使用 `Run workflow` 手動測試。
-
-## GitHub 推送
-
-如果這個資料夾還不是 git repository：
-
-```powershell
-git init
-git add .
-git commit -m "Initial daily US news Discord briefing"
-git branch -M main
-git remote add origin <GITHUB_REPO_URL>
-git push -u origin main
-```
-
-請把 `<GITHUB_REPO_URL>` 換成你的既有 GitHub repository URL。
 
 ## 查證邏輯
 
