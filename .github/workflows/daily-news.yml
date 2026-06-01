@@ -2,9 +2,11 @@ name: Daily US News Discord Briefing
 
 on:
   schedule:
-    # Runs once per day. The Python app uses Australia/Hobart timezone logic
-    # when labeling and filtering the briefing.
-    - cron: "30 20 * * *"
+    # GitHub cron is UTC. Hobart is UTC+11 during daylight saving time
+    # and UTC+10 during standard time. Both schedules run; the timezone
+    # guard below sends only when the local Hobart hour is 08.
+    - cron: "0 21 * * *"
+    - cron: "0 22 * * *"
   workflow_dispatch:
 
 jobs:
@@ -30,7 +32,26 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      - name: Check Hobart schedule window
+        id: schedule_window
+        run: |
+          local_hour="$(TZ="$LOCAL_TIMEZONE" date +%H)"
+          local_time="$(TZ="$LOCAL_TIMEZONE" date '+%Y-%m-%d %H:%M:%S %Z')"
+          echo "Hobart local time: $local_time"
+
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "Manual run detected; skipping schedule gate."
+            echo "should_run=true" >> "$GITHUB_OUTPUT"
+          elif [ "$local_hour" = "08" ]; then
+            echo "Scheduled run is inside the Hobart 08:00 hour."
+            echo "should_run=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "Scheduled run is outside the Hobart 08:00 hour; skipping send."
+            echo "should_run=false" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Check required secrets
+        if: steps.schedule_window.outputs.should_run == 'true'
         run: |
           if [ -z "$DISCORD_WEBHOOK_URL" ]; then
             echo "::error::Missing GitHub Actions secret: DISCORD_WEBHOOK_URL"
@@ -39,4 +60,5 @@ jobs:
           fi
 
       - name: Run daily briefing
+        if: steps.schedule_window.outputs.should_run == 'true'
         run: python -m news_briefing.main
